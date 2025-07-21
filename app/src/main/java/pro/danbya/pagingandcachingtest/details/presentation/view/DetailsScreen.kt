@@ -10,12 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun DetailsScreen(onBackClick: () -> Unit) {
+fun DetailsScreen(item: Int, onBackClick: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text("$item")
         Button(onClick = onBackClick) {
             Text("Go to MainScreen")
         }
