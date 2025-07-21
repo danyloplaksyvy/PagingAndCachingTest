@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,9 +7,19 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+fun getApiKey(): String {
+    val properties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        properties.load(localPropertiesFile.inputStream())
+    }
+    return properties.getProperty("API_KEY") ?: throw GradleException("API_KEY not found in local.properties")
+}
 android {
     namespace = "pro.danbya.pagingandcachingtest"
     compileSdk = 35
+
+    buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "pro.danbya.pagingandcachingtest"
@@ -20,6 +32,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "API_KEY", "\"${getApiKey()}\"")
     }
 
     buildTypes {
